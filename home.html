@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="app-title">Weather App</h1>
+        <p class="subtitle"> </p>
+        <div class="city-buttons">
+            <button onclick="getWeather('New York')">New York</button>
+            <button onclick="getWeather('London')">London</button>
+            <button onclick="getWeather('Tokyo')">Tokyo</button>
+            <button onclick="getWeather('Colombo')">Colombo</button>
+            <button onclick="getWeather('Dubai')">Dubai</button>
+        </div>
+        <div id="weather-info">
+            <h2 class="info-title">Weather Information</h2>
+            <div id="details" class="details-box"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
