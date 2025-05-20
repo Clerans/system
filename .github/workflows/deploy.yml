@@ -1,40 +1,43 @@
-name: Deploy Website to GitHub Pages
+name: Security Scanning
 
 on:
+  schedule:
+    - cron: '0 0 * * *'  
   push:
-    branches: [ main ]  # Use 'main' instead of 'master' if needed
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-  build:
+  sast-codeql:
+    name: Static Analysis (SAST) with CodeQL
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
+  sca-audit:
+    name: Dependency Audit (SCA)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Build site
-        run: |
-          echo "Building site..."
-          # Add your actual build commands here
-          
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          name: website-deployment
-          path: ./dist  # Update to your build directory
-          retention-days: 1
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run npm audit
+        run: npm audit --audit-level=high
