@@ -3,7 +3,7 @@ name: Simple GitHub Pages Deploy
 on:
   push:
     branches:
-      - master  # or 'main' if that's your default
+      - master  
 
 permissions:
   contents: read
@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Upload website files
         uses: actions/upload-pages-artifact@v2
