@@ -3,7 +3,7 @@ name: Simple GitHub Pages Deploy
 on:
   push:
     branches:
-      - master  # Or 'main', based on your default branch
+      - master  # or 'main' if that's your default
 
 permissions:
   contents: read
@@ -17,10 +17,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Upload to GitHub Pages
+      - name: Upload website files
         uses: actions/upload-pages-artifact@v2
         with:
-          path: ./
+          path: ./  # this points to your root folder
 
   deploy-pages:
     needs: deploy
@@ -29,6 +29,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy GitHub Pages
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
