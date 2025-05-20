@@ -2,34 +2,22 @@ name: Deploy Website to GitHub Pages
 
 on:
   push:
-    branches:
-      - master  
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+    branches: [ master ]  # or your main branch
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4  # Updated to v4
-
-      # Add your build steps here if needed (npm install, build commands, etc.)
-      # Example:
-      # - name: Install dependencies
-      #   run: npm install
-      #
-      # - name: Build project
-      #   run: npm run build
-
-      - name: Upload website to artifact
-        uses: actions/upload-pages-artifact@v3  # Updated to v3
+      - uses: actions/checkout@v4
+      
+      # Add your build commands here if needed
+      # - run: npm install && npm run build
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: ./  # or your build directory like 'dist/', 'public/', etc.
+          name: website-artifact
+          path: ./  # or your build directory
 
   deploy:
     needs: build
@@ -37,8 +25,8 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
+    
     steps:
-      - name: Deploy to GitHub Pages
+      - name: Deploy
         id: deployment
-        uses: actions/deploy-pages@v3  # Updated to v3
+        uses: actions/deploy-pages@v3
