@@ -16,12 +16,20 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4  # Updated to v4
+
+      # Add your build steps here if needed (npm install, build commands, etc.)
+      # Example:
+      # - name: Install dependencies
+      #   run: npm install
+      #
+      # - name: Build project
+      #   run: npm run build
 
       - name: Upload website to artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3  # Updated to v3
         with:
-          path: ./  # or change this to 'dist/', 'public/', etc. if needed
+          path: ./  # or your build directory like 'dist/', 'public/', etc.
 
   deploy:
     needs: build
@@ -33,4 +41,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v3  # Updated to v3
