@@ -1,4 +1,4 @@
-name: Simple GitHub Pages Deploy
+name: Deploy Website to GitHub Pages
 
 on:
   push:
@@ -11,23 +11,25 @@ permissions:
   id-token: write
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Upload website files
+      - name: Upload website to artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: ./  # this points to your root folder
+          path: ./  # or change this to 'dist/', 'public/', etc. if needed
 
-  deploy-pages:
-    needs: deploy
+  deploy:
+    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
