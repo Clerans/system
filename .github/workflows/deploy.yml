@@ -7,7 +7,7 @@ on:
 permissions:
   contents: read
   pages: write
-  id-token: write  # Required for OIDC token authentication
+  id-token: write
 
 jobs:
   build:
@@ -15,13 +15,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      # Add your build steps here if needed
-      # - run: npm install && npm run build
-      
+      - name: Build site
+        run: |
+          echo "Building site..."
+          # Add your actual build commands here
+          
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./  # or your build directory
+          name: website-deployment
+          path: ./
+          retention-days: 1
 
   deploy:
     needs: build
